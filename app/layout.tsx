@@ -4,12 +4,13 @@ import { GeistSans } from "geist/font/sans"
 import { GeistMono } from "geist/font/mono"
 import { Analytics } from "@vercel/analytics/next"
 import { Suspense } from "react"
+import { ThemeProvider } from "@/components/theme-provider"
+import { ThemeToggle } from "@/components/theme-toggle"
 import "./globals.css"
 
 export const metadata: Metadata = {
-  title: "v0 App",
-  description: "Created with v0",
-  generator: "v0.app",
+  title: "Employee App Catalog",
+  description: "Discover and request access to your organization's SaaS applications. An internal app store for employees to explore, evaluate, and manage software tools.",
 }
 
 export default function RootLayout({
@@ -20,10 +21,20 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${GeistSans.variable} ${GeistMono.variable}`}>
       <body className="font-sans">
-        <Suspense fallback={null}>
-          {children}
-          <Analytics />
-        </Suspense>
+        <ThemeProvider
+          attribute="class"
+          defaultTheme="system"
+          enableSystem
+          disableTransitionOnChange
+        >
+          <div className="fixed top-4 right-4 z-50">
+            <ThemeToggle />
+          </div>
+          <Suspense fallback={null}>
+            {children}
+            <Analytics />
+          </Suspense>
+        </ThemeProvider>
       </body>
     </html>
   )
